@@ -42,4 +42,8 @@ class DashboardController extends Controller
     {
         return view('estudiante.misiones');
     }
+    public function jugarMision(\App\Models\Mision $mision)
+    {
+        return view('estudiante.jugar', compact('mision'));
+    }
 }

@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:estudiante'])->prefix('estudiante')->name('estudiante.')->group(function () {
         Route::get('/misiones', [DashboardController::class, 'misiones'])->name('misiones');
     });
+    Route::get('/misiones/{mision}', [DashboardController::class, 'jugarMision'])->name('estudiante.mision.jugar');
 
 });
 
