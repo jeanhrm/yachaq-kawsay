@@ -1,76 +1,105 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        {{-- Nombre --}}
-        <div>
-            <x-input-label for="name" :value="__('Nombre completo')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text"
-                name="name" :value="old('name')" required autofocus />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Registro — Yachaq Kawsay</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body { margin:0; font-family:'Nunito',sans-serif; background:#FFFFFF; }
+        .auth-grid { display:grid; grid-template-columns:1fr 1fr; min-height:100vh; }
+        .auth-left { background:#1D2458; padding:3rem; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+        .auth-left::after { content:''; position:absolute; bottom:-80px; right:-80px; width:320px; height:320px; border-radius:50%; background:rgba(28,171,226,0.1); }
+        .brand { font-family:'Fraunces',serif; font-size:1.8rem; color:white; font-weight:700; line-height:1.1; margin-bottom:0.4rem; }
+        .brand-sub { font-family:'Fraunces',serif; font-style:italic; color:#1CABE2; font-size:0.88rem; margin-bottom:2rem; }
+        .feature-item { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+        .feature-box { width:28px; height:28px; border-radius:8px; background:rgba(28,171,226,0.15); border:1px solid rgba(28,171,226,0.25); display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
+        .feature-text { font-size:0.78rem; color:rgba(255,255,255,0.6); font-weight:700; }
+        .form-title { font-family:'Fraunces',serif; font-size:1.8rem; color:#1D2458; font-weight:700; margin-bottom:0.3rem; }
+        .form-sub { font-size:0.78rem; color:#4A7A9A; font-weight:700; margin-bottom:1.5rem; }
+        .form-label { font-size:0.72rem; color:#1D2458; font-weight:800; margin-bottom:4px; display:block; }
+        .form-input { width:100%; border:2px solid #C8DCE8; border-radius:10px; padding:0.6rem 0.9rem; font-size:0.85rem; font-family:'Nunito',sans-serif; color:#1D2458; outline:none; transition:border-color 0.2s; margin-bottom:0.8rem; }
+        .form-input:focus { border-color:#1CABE2; }
+        .btn-submit { width:100%; background:#1D2458; color:white; padding:0.8rem; border-radius:10px; font-size:0.88rem; font-weight:900; border:none; cursor:pointer; font-family:'Nunito',sans-serif; transition:background 0.2s; margin-bottom:1rem; }
+        .btn-submit:hover { background:#1CABE2; }
+        .form-footer { text-align:center; font-size:0.76rem; color:#4A7A9A; font-weight:700; }
+        .form-footer a { color:#1CABE2; font-weight:900; text-decoration:none; }
+        .error-msg { font-size:0.72rem; color:#E53E3E; font-weight:700; margin-top:-6px; margin-bottom:6px; }
+        .role-option { display:flex; align-items:center; gap:8px; padding:10px 14px; border:2px solid #C8DCE8; border-radius:10px; cursor:pointer; transition:border-color 0.2s; margin-bottom:8px; }
+        .role-option:has(input:checked) { border-color:#1CABE2; background:#EEF7FC; }
+        .role-option input { accent-color:#1CABE2; }
+        .role-label { font-size:0.82rem; font-weight:800; color:#1D2458; }
+        .role-desc { font-size:0.7rem; color:#4A7A9A; }
+        @media(max-width:768px){ .auth-grid { grid-template-columns:1fr; } .auth-left { display:none; } }
+    </style>
+</head>
+<body class="fade-in">
+<div class="auth-grid">
+    <div class="auth-left">
+        <div style="position:relative;z-index:1;">
+            <div style="font-size:3rem;margin-bottom:1rem;">🏔️</div>
+            <div class="brand">Yachaq<br>Kawsay</div>
+            <div class="brand-sub">"El conocimiento que da vida"</div>
+            <div class="feature-item"><div class="feature-box">🦙</div><div class="feature-text">Tupaq te guía con IA</div></div>
+            <div class="feature-item"><div class="feature-box">🔬</div><div class="feature-text">Misiones de indagación andina</div></div>
+            <div class="feature-item"><div class="feature-box">🏆</div><div class="feature-text">Insignias en quechua</div></div>
+            <div class="feature-item"><div class="feature-box">👨‍🏫</div><div class="feature-text">Seguimiento docente en tiempo real</div></div>
         </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding:2rem;overflow-y:auto;">
+        <div style="width:100%;max-width:400px;">
+            <div class="form-title">Crear cuenta</div>
+            <div class="form-sub">Únete a Yachaq Kawsay gratis</div>
 
-        {{-- Email --}}
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Correo electrónico')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email"
-                name="email" :value="old('email')" required />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
 
-        {{-- Rol --}}
-        <div class="mt-4">
-            <x-input-label :value="__('Soy...')" />
-            <div class="flex gap-4 mt-2">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="role" value="docente"
-                        {{ old('role') === 'docente' ? 'checked' : '' }}
-                        onclick="document.getElementById('campo-codigo').classList.add('hidden')"
-                        class="text-indigo-600" />
-                    <span class="text-sm text-gray-700">Docente</span>
+                <label class="form-label">Nombre completo</label>
+                <input class="form-input" type="text" name="name" value="{{ old('name') }}" required placeholder="Tu nombre completo">
+                @error('name')<div class="error-msg">{{ $message }}</div>@enderror
+
+                <label class="form-label">Correo electrónico</label>
+                <input class="form-input" type="email" name="email" value="{{ old('email') }}" required placeholder="tu@correo.com">
+                @error('email')<div class="error-msg">{{ $message }}</div>@enderror
+
+                <label class="form-label">Soy...</label>
+                <label class="role-option" onclick="toggleCodigo(false)">
+                    <input type="radio" name="role" value="docente" {{ old('role')==='docente' ? 'checked' : '' }}>
+                    <div><div class="role-label">👨‍🏫 Docente</div><div class="role-desc">Creo aulas y hago seguimiento</div></div>
                 </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="role" value="estudiante"
-                        {{ old('role') === 'estudiante' ? 'checked' : '' }}
-                        onclick="document.getElementById('campo-codigo').classList.remove('hidden')"
-                        class="text-indigo-600" />
-                    <span class="text-sm text-gray-700">Estudiante</span>
+                <label class="role-option" onclick="toggleCodigo(true)">
+                    <input type="radio" name="role" value="estudiante" {{ old('role')==='estudiante' ? 'checked' : '' }}>
+                    <div><div class="role-label">🎒 Estudiante</div><div class="role-desc">Juego misiones y aprendo</div></div>
                 </label>
+                @error('role')<div class="error-msg">{{ $message }}</div>@enderror
+
+                <div id="campo-codigo" class="{{ old('role')==='estudiante' ? '' : 'hidden' }}" style="margin-top:4px;">
+                    <label class="form-label">Código de aula</label>
+                    <input class="form-input" type="text" name="codigo" value="{{ old('codigo') }}" placeholder="Ej: ABC123" style="text-transform:uppercase;">
+                    @error('codigo')<div class="error-msg">{{ $message }}</div>@enderror
+                </div>
+
+                <label class="form-label">Contraseña</label>
+                <input class="form-input" type="password" name="password" required placeholder="Mínimo 8 caracteres">
+                @error('password')<div class="error-msg">{{ $message }}</div>@enderror
+
+                <label class="form-label">Confirmar contraseña</label>
+                <input class="form-input" type="password" name="password_confirmation" required placeholder="Repite tu contraseña">
+
+                <button type="submit" class="btn-submit">Crear mi cuenta</button>
+            </form>
+
+            <div class="form-footer">
+                ¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar sesión</a>
             </div>
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
-
-        {{-- Código de aula (solo estudiante) --}}
-        <div id="campo-codigo" class="{{ old('role') === 'estudiante' ? '' : 'hidden' }} mt-4">
-            <x-input-label for="codigo" :value="__('Código de aula')" />
-            <x-text-input id="codigo" class="block mt-1 w-full uppercase" type="text"
-                name="codigo" :value="old('codigo')" placeholder="Ej: ABC123" />
-            <x-input-error :messages="$errors->get('codigo')" class="mt-2" />
-        </div>
-
-        {{-- Password --}}
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Contraseña')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password"
-                name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        {{-- Confirmar password --}}
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirmar contraseña')" />
-            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                name="password_confirmation" required />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                ¿Ya tienes cuenta?
-            </a>
-            <x-primary-button class="ms-4">
-                {{ __('Registrarse') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+<script>
+function toggleCodigo(show) {
+    document.getElementById('campo-codigo').classList.toggle('hidden', !show);
+}
+</script>
+</body>
+</html>

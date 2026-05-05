@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return redirect('/login');
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
+    return view('welcome');
 });
 
 // Rutas autenticadas

@@ -6,164 +6,176 @@
     <title>Yachaq Kawsay — Aprende indagando</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: var(--puna-dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'DM Sans', sans-serif;
+        body { margin:0; background:#FFFFFF; font-family:'Nunito',sans-serif; }
+        .hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
+        .hero-left {
+            background:#1D2458;
+            padding:3rem;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            position:relative;
+            overflow:hidden;
         }
-
-        .hero {
-            text-align: center;
-            padding: 3rem 2rem;
-            max-width: 600px;
+        .hero-left::after {
+            content:'';
+            position:absolute;
+            bottom:-60px; right:-60px;
+            width:300px; height:300px;
+            border-radius:50%;
+            background:rgba(28,171,226,0.12);
         }
-
-        .hero-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            display: block;
-            animation: float 3s ease-in-out infinite;
+        .hero-right {
+            padding:3rem;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            background:#FFFFFF;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(-10px); }
+        .tag {
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            background:rgba(28,171,226,0.15);
+            border:1px solid rgba(28,171,226,0.3);
+            border-radius:999px;
+            padding:5px 14px;
+            margin-bottom:1.5rem;
+            width:fit-content;
         }
-
-        .hero h1 {
-            font-family: 'Fraunces', serif;
-            font-size: 3rem;
-            color: var(--arena);
-            margin: 0 0 0.5rem;
-            line-height: 1.1;
+        .tag-dot { width:7px;height:7px;border-radius:50%;background:#1CABE2; }
+        .tag span { font-size:0.75rem;color:#1CABE2;font-weight:700; }
+        .hero-title {
+            font-family:'Fraunces',serif;
+            font-size:2.8rem;
+            color:white;
+            line-height:1.1;
+            margin-bottom:0.5rem;
         }
-
-        .hero .subtitle {
-            font-size: 1.1rem;
-            color: var(--arena-dark);
-            margin-bottom: 0.5rem;
+        .hero-subtitle {
+            font-family:'Fraunces',serif;
+            font-style:italic;
+            color:#1CABE2;
+            font-size:1rem;
+            margin-bottom:1rem;
         }
-
-        .hero .quechua {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            color: var(--dorado);
-            font-size: 1rem;
-            margin-bottom: 2.5rem;
-            display: block;
+        .hero-desc {
+            font-size:0.88rem;
+            color:rgba(255,255,255,0.55);
+            line-height:1.7;
+            margin-bottom:2rem;
+            max-width:380px;
         }
-
         .btn-primary {
-            background: var(--terracota);
-            color: white;
-            padding: 0.9rem 2.5rem;
-            border-radius: 999px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            margin-right: 1rem;
-            transition: background 0.2s, transform 0.1s;
-            display: inline-block;
+            background:#1CABE2;
+            color:white;
+            padding:0.8rem 2rem;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:800;
+            font-size:0.9rem;
+            display:inline-block;
+            transition:background 0.2s, transform 0.1s;
         }
-
-        .btn-primary:hover {
-            background: var(--terracota-dark);
-            transform: translateY(-2px);
-        }
-
+        .btn-primary:hover { background:#1591C2; transform:translateY(-2px); }
         .btn-secondary {
-            color: var(--arena);
-            padding: 0.9rem 2rem;
-            border-radius: 999px;
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 1rem;
-            border: 1px solid rgba(245,237,216,0.3);
-            transition: border-color 0.2s;
-            display: inline-block;
+            color:rgba(255,255,255,0.6);
+            padding:0.8rem 1.5rem;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:700;
+            font-size:0.9rem;
+            border:1px solid rgba(255,255,255,0.15);
+            display:inline-block;
+            margin-left:0.8rem;
+            transition:border-color 0.2s;
         }
-
-        .btn-secondary:hover {
-            border-color: var(--dorado);
-            color: var(--dorado);
+        .btn-secondary:hover { border-color:rgba(28,171,226,0.5); color:white; }
+        .stats { display:flex;gap:2rem;margin-top:2.5rem; }
+        .stat-num { font-family:'Fraunces',serif;font-size:1.6rem;color:white;font-weight:700; }
+        .stat-label { font-size:0.7rem;color:rgba(255,255,255,0.45);font-weight:600; }
+        .feature-cards { display:flex;flex-direction:column;gap:12px;max-width:360px; }
+        .feature-card {
+            background:#EEF7FC;
+            border:1px solid rgba(28,171,226,0.2);
+            border-radius:14px;
+            padding:1.2rem;
+            display:flex;
+            align-items:center;
+            gap:14px;
         }
-
-        .features {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 4rem;
-            flex-wrap: wrap;
-            justify-content: center;
+        .feature-icon {
+            width:44px;height:44px;border-radius:12px;
+            background:#1D2458;
+            display:flex;align-items:center;justify-content:center;
+            font-size:1.3rem;flex-shrink:0;
         }
-
-        .feature {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(245,237,216,0.1);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            width: 160px;
-            text-align: center;
-        }
-
-        .feature .icon { font-size: 2rem; margin-bottom: 0.5rem; }
-        .feature .label {
-            font-size: 0.8rem;
-            color: var(--arena-dark);
-            line-height: 1.4;
-        }
-
-        .pattern {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
-                repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 40px,
-                    rgba(201,149,42,0.03) 40px,
-                    rgba(201,149,42,0.03) 41px
-                );
-            pointer-events: none;
+        .feature-title { font-size:0.85rem;font-weight:800;color:#1D2458; }
+        .feature-desc { font-size:0.72rem;color:#4A7A9A;margin-top:2px; }
+        .right-top { margin-bottom:2.5rem; }
+        .right-title { font-family:'Fraunces',serif;font-size:2rem;color:#1D2458;font-weight:700;margin-bottom:0.3rem; }
+        .right-sub { font-size:0.82rem;color:#4A7A9A;font-weight:600;margin-bottom:2rem; }
+        @media(max-width:768px){
+            .hero { grid-template-columns:1fr; }
+            .hero-left { padding:2rem; min-height:50vh; }
+            .hero-right { padding:2rem; }
         }
     </style>
 </head>
 <body>
-    <div class="pattern"></div>
-
-    <div class="hero fade-in">
-        <span class="hero-icon">🏔️</span>
-        <h1>Yachaq Kawsay</h1>
-        <p class="subtitle">Aprende ciencia desde los Andes</p>
-        <span class="quechua">"El conocimiento que da vida"</span>
-
+<div class="hero fade-in">
+    <div class="hero-left">
+        <div class="tag"><div class="tag-dot"></div><span>Plataforma educativa andina</span></div>
+        <div style="font-size:3rem;margin-bottom:1rem;">🏔️</div>
+        <h1 class="hero-title">Yachaq<br>Kawsay</h1>
+        <p class="hero-subtitle">"El conocimiento que da vida"</p>
+        <p class="hero-desc">Aprende ciencia investigando tu propio entorno andino. Con Tupaq, tu guía con IA, cada misión te acerca más a ser un verdadero indagador.</p>
         <div>
             <a href="{{ route('register') }}" class="btn-primary">Comenzar ahora</a>
             <a href="{{ route('login') }}" class="btn-secondary">Iniciar sesión</a>
         </div>
-
-        <div class="features">
-            <div class="feature">
-                <div class="icon">🦙</div>
-                <div class="label">Tupaq, tu guía andino con IA</div>
+        <div class="stats">
+            <div><div class="stat-num">2</div><div class="stat-label">Misiones andinas</div></div>
+            <div><div class="stat-num">8</div><div class="stat-label">Insignias quechua</div></div>
+            <div><div class="stat-num">5</div><div class="stat-label">Fases de indagación</div></div>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="right-top">
+            <h2 class="right-title">Aprende investigando</h2>
+            <p class="right-sub">Todo alineado al Currículo Nacional del Perú</p>
+        </div>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="feature-icon">🦙</div>
+                <div>
+                    <div class="feature-title">Tupaq, tu guía con IA</div>
+                    <div class="feature-desc">Te orienta, da pistas y evalúa tus respuestas en cada fase</div>
+                </div>
             </div>
-            <div class="feature">
-                <div class="icon">🔬</div>
-                <div class="label">Misiones de indagación científica</div>
+            <div class="feature-card">
+                <div class="feature-icon">🔬</div>
+                <div>
+                    <div class="feature-title">Misiones de indagación</div>
+                    <div class="feature-desc">Problemas reales del contexto andino de Huancavelica</div>
+                </div>
             </div>
-            <div class="feature">
-                <div class="icon">🏆</div>
-                <div class="label">Insignias en quechua</div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <div>
+                    <div class="feature-title">Insignias en quechua</div>
+                    <div class="feature-desc">Gana insignias como Tapuq Sinchi y Kuntur Runa</div>
+                </div>
             </div>
-            <div class="feature">
-                <div class="icon">👨‍🏫</div>
-                <div class="label">Seguimiento docente en tiempo real</div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <div>
+                    <div class="feature-title">Seguimiento docente</div>
+                    <div class="feature-desc">El docente ve el progreso de cada estudiante en tiempo real</div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
