@@ -14,9 +14,9 @@
         <div class="flex gap-2 mt-6">
             @foreach($mision->fases as $fase)
                 @php
-                    $faseCompletada = $progreso->xp_ganado > 0 &&
-                        $mision->fases->search(fn($f) => $f->id === $fase->id) 
-                        $mision->fases->search(fn($f) => $f->id === $faseActual?->id);
+                    $indiceFase = $mision->fases->search(fn($f) => $f->id === $fase->id);
+                    $indiceActual = $faseActual ? $mision->fases->search(fn($f) => $f->id === $faseActual->id) : -1;
+                    $faseCompletada = $progreso->xp_ganado > 0 && $indiceFase < $indiceActual;
                     $esFaseActual = $faseActual && $fase->id === $faseActual->id;
                 @endphp
                 <div class="flex-1 text-center">
