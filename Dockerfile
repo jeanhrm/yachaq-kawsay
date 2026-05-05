@@ -21,4 +21,7 @@ COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080
 
-CMD sh -c "php artisan migrate --force && php artisan config:cache && php-fpm -D && sleep 3 && nginx -g 'daemon off;'"
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
