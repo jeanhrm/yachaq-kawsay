@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/misiones', [DashboardController::class, 'misiones'])->name('misiones');
     });
     Route::get('/misiones/{mision}', [DashboardController::class, 'jugarMision'])->name('estudiante.mision.jugar');
-
+    Route::get('/perfil', [DashboardController::class, 'perfil'])->name('estudiante.perfil');
 });
 
 require __DIR__.'/auth.php';

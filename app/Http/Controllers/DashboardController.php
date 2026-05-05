@@ -46,4 +46,10 @@ class DashboardController extends Controller
     {
         return view('estudiante.jugar', compact('mision'));
     }
+    public function perfil()
+    {
+        $user = auth()->user()->load('insignias', 'progresos.mision');
+        $todasInsignias = \App\Models\Insignia::all();
+        return view('estudiante.perfil', compact('user', 'todasInsignias'));
+    }
 }
