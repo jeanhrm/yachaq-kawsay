@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mision extends Model
 {
-    protected $fillable = [
+protected $table = 'misiones';    
+protected $fillable = [
         'titulo',
         'descripcion',
         'contexto_andino',

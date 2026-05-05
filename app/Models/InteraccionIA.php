@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InteraccionIA extends Model
 {
+    protected $table = 'interacciones_ia';
     protected $fillable = [
         'user_id',
         'mision_id',

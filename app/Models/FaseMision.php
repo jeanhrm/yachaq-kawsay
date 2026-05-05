@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FaseMision extends Model
 {
+    protected $table = 'fases_mision';
     protected $fillable = [
         'mision_id',
         'nombre',
