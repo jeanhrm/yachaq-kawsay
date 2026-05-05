@@ -23,6 +23,16 @@ class DashboardController extends Controller
         return view('docente.aulas', compact('aulas'));
     }
 
+    public function dashboardDocente()
+    {
+        $aulas = auth()->user()->aulas()->with([
+            'estudiantes.progresos.mision',
+            'estudiantes.insignias',
+        ])->withCount('estudiantes')->get();
+
+        return view('docente.dashboard', compact('aulas'));
+    }
+
     public function crearAula(Request $request)
     {
         $request->validate([

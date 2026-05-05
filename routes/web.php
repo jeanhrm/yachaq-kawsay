@@ -17,6 +17,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:docente'])->prefix('docente')->name('docente.')->group(function () {
         Route::get('/aulas', [DashboardController::class, 'aulas'])->name('aulas');
         Route::post('/aulas', [DashboardController::class, 'crearAula'])->name('aulas.crear');
+        Route::get('/dashboard', [DashboardController::class, 'dashboardDocente'])->name('docente.dashboard');
     });
 
     // Rutas solo estudiante

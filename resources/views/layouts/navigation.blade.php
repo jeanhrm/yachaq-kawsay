@@ -11,6 +11,19 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(auth()->user()->isDocente())
+                        <x-nav-link :href="route('docente.aulas')" :active="request()->routeIs('docente.aulas')">
+                            {{ __('Mis aulas') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('docente.dashboard')" :active="request()->routeIs('docente.dashboard')">
+                            {{ __('Seguimiento') }}
+                        </x-nav-link>
+                    @endif
+                    @if(auth()->user()->isEstudiante())
+                        <x-nav-link :href="route('estudiante.misiones')" :active="request()->routeIs('estudiante.misiones')">
+                            {{ __('Misiones') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -62,6 +75,19 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(auth()->user()->isDocente())
+                <x-responsive-nav-link :href="route('docente.aulas')" :active="request()->routeIs('docente.aulas')">
+                    {{ __('Mis aulas') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('docente.dashboard')" :active="request()->routeIs('docente.dashboard')">
+                    {{ __('Seguimiento') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(auth()->user()->isEstudiante())
+                <x-responsive-nav-link :href="route('estudiante.misiones')" :active="request()->routeIs('estudiante.misiones')">
+                    {{ __('Misiones') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200">
