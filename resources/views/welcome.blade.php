@@ -130,9 +130,9 @@
 
         <div style="display:flex;flex-direction:column;gap:16px;">
             <img 
-                src="{{ asset('images/hero-andino.png') }}" 
+                src="{{ asset('images/hero-andino.png') }}"     
                 alt="Yachaq Kawsay" 
-                style="width:100%;max-width:480px;border-radius:20px;object-fit:cover;">
+                style="width:50%;max-width:480px;border-radius:20px;object-fit:cover;">
         </div>
 
         

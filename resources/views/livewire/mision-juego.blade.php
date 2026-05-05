@@ -60,7 +60,9 @@
 
         {{-- Tupaq habla --}}
         <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-4 flex gap-4">
-            <div class="text-3xl flex-shrink-0">🦙</div>
+    <img src="{{ asset('images/tupac.png') }}" 
+         alt="Tupaq" 
+         style="width:60px;height:60px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(28,171,226,0.3);">
             <div>
                 <p class="text-xs font-medium text-amber-700 mb-1">Tupaq dice:</p>
                 @if($respuestaTupaq)
