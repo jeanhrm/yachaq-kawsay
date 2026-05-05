@@ -52,4 +52,33 @@ class User extends Authenticatable
     {
         return $this->role === 'estudiante';
     }
+
+    public function progresos()
+    {
+        return $this->hasMany(ProgresoEstudiante::class);
+    }
+
+    public function interacciones()
+    {
+        return $this->hasMany(InteraccionIA::class);
+    }
+
+    public function xpTotal(): int
+    {
+        return $this->progresos()->sum('xp_ganado');
+    }
+
+    public function nivelActual(): string
+    {
+        $xp = $this->xpTotal();
+
+        return match(true) {
+            $xp >= 700 => 'Apu Yachaq',
+            $xp >= 450 => 'Yachaq',
+            $xp >= 250 => 'Qawaq',
+            $xp >= 100 => 'Tapuq',
+            default    => 'Musuq Yachaq',
+        };
+    }
+
 }
