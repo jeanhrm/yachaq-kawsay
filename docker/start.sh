@@ -3,9 +3,6 @@
 echo "Corriendo migraciones..."
 php /var/www/artisan migrate --force
 
-echo "Corriendo seeder..."
-php /var/www/artisan db:seed --class=MisionesSeeder --force
-
 echo "Cacheando..."
 php /var/www/artisan config:cache
 php /var/www/artisan route:cache
