@@ -1,46 +1,35 @@
-FROM php:8.4-fpm-alpine
+events {}
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    sendfile on;
 
-# Instalar dependencias del sistema
-RUN apk add --no-cache \
-    nginx \
-    nodejs \
-    npm \
-    git \
-    curl \
-    libpng-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    postgresql-dev
+    server {
+        listen 8080;
+        root /var/www/public;
+        index index.php index.html;
 
-# Instalar extensiones PHP
-RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-Content-Type-Options "nosniff";
 
-# Instalar Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+        charset utf-8;
 
-WORKDIR /var/www
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
 
-# Copiar proyecto
-COPY . .
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location = /robots.txt  { access_log off; log_not_found off; }
 
-# Instalar dependencias PHP
-RUN composer install --optimize-autoloader --no-dev --no-interaction
+        location ~ \.php$ {
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+            include /etc/nginx/fastcgi_params;
+            fastcgi_param DOCUMENT_ROOT $realpath_root;
+        }
 
-# Instalar dependencias JS y compilar
-RUN npm install && npm run build
-
-# Permisos
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-
-# Configurar nginx
-COPY docker/nginx.conf /etc/nginx/nginx.conf
-
-EXPOSE 8080
-
-CMD php artisan migrate --force && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php-fpm -D && \
-    nginx -g "daemon off;"
+        location ~ /\.(?!well-known).* {
+            deny all;
+        }
+    }
+}
