@@ -28,7 +28,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="fade-in">
                 {{ $slot }}
             </main>
         </div>

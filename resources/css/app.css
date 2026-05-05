@@ -1,3 +1,192 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+    --terracota: #C4622D;
+    --terracota-light: #E8896A;
+    --terracota-dark: #8B3A15;
+    --puna: #2D5A3D;
+    --puna-light: #4A8C62;
+    --puna-dark: #1A3A27;
+    --dorado: #C9952A;
+    --dorado-light: #E8B84B;
+    --arena: #F5EDD8;
+    --arena-dark: #E8D9B8;
+    --piedra: #6B5B4E;
+    --piedra-light: #9B8B7E;
+    --cielo: #4A7BA7;
+    --bg: #FAF7F2;
+    --card: #FFFFFF;
+    --text: #2C1810;
+    --text-muted: #7A6258;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(196,98,45,0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(45,90,61,0.04) 0%, transparent 50%);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+}
+
+/* Navbar andina */
+nav.bg-white {
+    background: var(--puna-dark) !important;
+    border-bottom: 3px solid var(--dorado) !important;
+}
+
+nav .text-gray-500, nav .text-gray-800 {
+    color: var(--arena) !important;
+}
+
+nav .hover\:text-gray-700:hover {
+    color: var(--dorado-light) !important;
+}
+
+nav .border-indigo-400 {
+    border-color: var(--dorado) !important;
+}
+
+nav .text-gray-400 {
+    color: var(--arena-dark) !important;
+}
+
+/* Cards */
+.bg-white {
+    background: var(--card) !important;
+    border: 1px solid rgba(196,98,45,0.1);
+}
+
+/* Botones primarios */
+.bg-indigo-600 {
+    background-color: var(--terracota) !important;
+    border-color: var(--terracota) !important;
+}
+
+.bg-indigo-600:hover, .hover\:bg-indigo-700:hover {
+    background-color: var(--terracota-dark) !important;
+}
+
+/* Links activos nav */
+.border-indigo-500 {
+    border-color: var(--dorado) !important;
+}
+
+.text-indigo-600 {
+    color: var(--terracota) !important;
+}
+
+.text-indigo-700 {
+    color: var(--terracota-dark) !important;
+}
+
+.bg-indigo-100 {
+    background-color: rgba(196,98,45,0.1) !important;
+}
+
+.bg-indigo-50 {
+    background-color: rgba(196,98,45,0.05) !important;
+}
+
+.ring-indigo-300 {
+    --tw-ring-color: rgba(196,98,45,0.3) !important;
+}
+
+/* Verdes → puna */
+.bg-green-500, .bg-green-600 {
+    background-color: var(--puna) !important;
+}
+
+.text-green-600 {
+    color: var(--puna) !important;
+}
+
+.bg-green-100 {
+    background-color: rgba(45,90,61,0.1) !important;
+}
+
+/* Tupaq card */
+.bg-amber-50 {
+    background: linear-gradient(135deg, #FDF6E3, #FAF0CC) !important;
+    border-color: var(--dorado) !important;
+}
+
+.text-amber-700 { color: var(--dorado) !important; }
+.text-amber-800, .text-amber-900 { color: var(--text) !important; }
+.text-amber-600 { color: var(--piedra) !important; }
+
+/* Patrón geométrico andino en headers */
+.andean-header {
+    background: var(--puna-dark);
+    background-image:
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 20px,
+            rgba(201,149,42,0.08) 20px,
+            rgba(201,149,42,0.08) 21px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 20px,
+            rgba(201,149,42,0.08) 20px,
+            rgba(201,149,42,0.08) 21px
+        );
+    padding: 2rem;
+    border-radius: 1rem 1rem 0 0;
+    color: var(--arena);
+}
+
+/* Insignias */
+.insignia-desbloqueada {
+    border-color: var(--dorado) !important;
+    background: linear-gradient(135deg, #FDF6E3, #FFF8E7) !important;
+    box-shadow: 0 2px 8px rgba(201,149,42,0.15);
+}
+
+/* Barra de progreso */
+.bg-indigo-400, .bg-indigo-500 {
+    background-color: var(--terracota) !important;
+}
+
+/* Inputs */
+input:focus, textarea:focus, select:focus {
+    border-color: var(--terracota) !important;
+    --tw-ring-color: rgba(196,98,45,0.2) !important;
+}
+
+/* Rounded cards con sombra suave */
+.rounded-xl {
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(44,24,16,0.06);
+}
+
+/* Animación entrada */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+/* Tupaq pensando */
+@keyframes tupaqThink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+
+.tupaq-thinking {
+    animation: tupaqThink 1.2s ease-in-out infinite;
+}

@@ -98,7 +98,7 @@
                         wire:loading.attr="disabled"
                         class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm hover:bg-indigo-700 transition disabled:opacity-50">
                         <span wire:loading.remove>Enviar a Tupaq 🦙</span>
-                        <span wire:loading>Tupaq está pensando...</span>
+                        <span wire:loading class="tupaq-thinking">Tupaq está pensando... 🦙</span>
                     </button>
                 </div>
             </div>
