@@ -120,3 +120,38 @@ input:focus, textarea:focus {
 
 /* Page background */
 .min-h-screen { background-color: #FFFFFF !important; }
+
+
+/* Nav links activos */
+nav .border-b-2 {
+    border-color: #1CABE2 !important;
+}
+
+nav a.border-indigo-500,
+nav a.text-gray-900,
+nav .text-gray-900 {
+    color: white !important;
+}
+
+/* Todos los textos de nav forzado a blanco */
+nav a { color: rgba(255,255,255,0.75) !important; }
+nav a:hover { color: white !important; }
+nav a.border-b-2 { color: white !important; }
+
+/* Botón logout/dropdown -- texto visible */
+nav button { color: rgba(255,255,255,0.85) !important; }
+nav button:hover { color: white !important; }
+
+/* Dropdown content -- fondo blanco con texto oscuro */
+nav .bg-white.rounded-md {
+    background: white !important;
+}
+nav .bg-white.rounded-md a,
+nav .bg-white.rounded-md button {
+    color: #1D2458 !important;
+}
+nav .bg-white.rounded-md a:hover,
+nav .bg-white.rounded-md button:hover {
+    background: #EEF7FC !important;
+    color: #1CABE2 !important;
+}
