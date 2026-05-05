@@ -1,22 +1,23 @@
 #!/bin/sh
-set -e
 
 echo "Corriendo migraciones..."
-php artisan migrate --force
+php /var/www/artisan migrate --force
 
-echo "Cacheando configuracion..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+echo "Cacheando..."
+php /var/www/artisan config:cache
+php /var/www/artisan route:cache
 
 echo "Iniciando php-fpm..."
-php-fpm -D
+php-fpm -F &
+FPM_PID=$!
 
 echo "Esperando php-fpm..."
-sleep 5
-
-echo "Verificando php-fpm..."
-ps aux | grep php-fpm
+sleep 4
 
 echo "Iniciando nginx..."
-exec nginx -g "daemon off;"
+nginx -g "daemon off;" &
+NGINX_PID=$!
+
+echo "Ambos servicios corriendo. FPM=$FPM_PID NGINX=$NGINX_PID"
+
+wait $FPM_PID $NGINX_PID
