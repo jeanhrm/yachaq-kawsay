@@ -83,6 +83,21 @@ class MisionJuego extends Component
 
     public function siguienteFase(): void
     {
+        
+        // Verificar insignias desbloqueadas
+        $user = auth()->user()->load('insignias', 'progresos', 'interacciones');
+        $service = new \App\Services\InsigniaService();
+        $nuevas = $service->verificarYDesbloquear($user);
+
+        if (!empty($nuevas)) {
+            $this->dispatch('insignias-desbloqueadas', 
+                insignias: collect($nuevas)->map(fn($i) => [
+                    'nombre' => $i->nombre_quechua,
+                    'emoji'  => $i->emoji,
+                ])->toArray()
+            );
+        }
+    
         $fases = $this->mision->fases;
         $indiceActual = $fases->search(fn($f) => $f->id === $this->faseActual->id);
         $siguienteFase = $fases->get($indiceActual + 1);

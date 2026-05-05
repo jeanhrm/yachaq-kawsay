@@ -80,5 +80,11 @@ class User extends Authenticatable
             default    => 'Musuq Yachaq',
         };
     }
+    public function insignias()
+    {
+        return $this->belongsToMany(Insignia::class, 'insignia_usuario')
+            ->withPivot('desbloqueada_en')
+            ->withTimestamps();
+    }
 
 }
