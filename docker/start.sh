@@ -4,7 +4,7 @@ set -e
 echo "Corriendo migraciones..."
 php artisan migrate --force
 
-echo "Cacheando configuración..."
+echo "Cacheando configuracion..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
@@ -13,7 +13,10 @@ echo "Iniciando php-fpm..."
 php-fpm -D
 
 echo "Esperando php-fpm..."
-sleep 3
+sleep 5
+
+echo "Verificando php-fpm..."
+ps aux | grep php-fpm
 
 echo "Iniciando nginx..."
-nginx -g "daemon off;"
+exec nginx -g "daemon off;"
