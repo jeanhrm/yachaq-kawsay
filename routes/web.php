@@ -18,11 +18,14 @@ Route::get('/lugar/{slug}', [LugarController::class, 'escanear'])->name('lugar.e
 // Ruta pública para generar imagen QR
 Route::get('/qr/{slug}', function($slug) {
     $url = url("/lugar/{$slug}");
-    $qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')
+    $qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
         ->size(200)
         ->margin(1)
+        ->errorCorrection('H')
         ->generate($url);
-    return response($qr)->header('Content-Type', 'image/png');
+    return response($qr)
+        ->header('Content-Type', 'image/svg+xml')
+        ->header('Cache-Control', 'public, max-age=3600');
 })->name('qr.generar');
 
 // Rutas autenticadas

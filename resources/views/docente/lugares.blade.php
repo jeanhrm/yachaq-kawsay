@@ -38,10 +38,11 @@
 
                         {{-- Preview QR --}}
                         <div class="flex justify-center mb-4">
-                            <img src="{{ route('qr.generar', $lugar->slug) }}"
-                                alt="QR {{ $lugar->nombre }}"
-                                class="rounded-lg"
-                                style="border:2px solid rgba(28,171,226,0.2);width:150px;height:150px;">
+                            <object 
+                                data="{{ route('qr.generar', $lugar->slug) }}"
+                                type="image/svg+xml"
+                                style="width:150px;height:150px;border:2px solid rgba(28,171,226,0.2);border-radius:8px;">
+                            </object>
                         </div>
 
                         <div class="text-center text-xs mb-4" style="color:#4A7A9A;">
