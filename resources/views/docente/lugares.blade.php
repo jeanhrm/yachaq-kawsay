@@ -142,6 +142,17 @@
                            download="qr-{{ $lugar->slug }}.png">
                             ⬇️ Descargar QR
                         </a>
+                        {{-- Botón eliminar --}}
+                        <form method="POST" action="{{ route('docente.lugares.eliminar', $lugar) }}"
+                            onsubmit="return confirm('¿Seguro que quieres eliminar este lugar?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="w-full text-center text-sm font-bold py-2 rounded-lg transition"
+                                style="background:#FFF5F5;color:#E53E3E;border:1px solid rgba(229,83,62,0.2);">
+                                🗑️ Eliminar lugar
+                            </button>
+                        </form>
                     </div>
                 @endforeach
             </div>

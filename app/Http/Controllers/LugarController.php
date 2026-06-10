@@ -83,4 +83,9 @@ class LugarController extends Controller
 
         return back()->with('success', '¡Lugar creado correctamente! Ya puedes descargar su QR.');
     }
+    public function eliminar(Lugar $lugar)
+    {
+        $lugar->delete();
+        return back()->with('success', 'Lugar eliminado correctamente.');
+    }
 }
