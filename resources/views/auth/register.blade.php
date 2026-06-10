@@ -74,11 +74,50 @@
                 </label>
                 @error('role')<div class="error-msg">{{ $message }}</div>@enderror
 
-                <div id="campo-codigo" class="{{ old('role')==='estudiante' ? '' : 'hidden' }}" style="margin-top:4px;">
-                    <label class="form-label">Código de aula</label>
-                    <input class="form-input" type="text" name="codigo" value="{{ old('codigo') }}" placeholder="Ej: ABC123" style="text-transform:uppercase;">
-                    @error('codigo')<div class="error-msg">{{ $message }}</div>@enderror
+                {{-- Campos solo para estudiante --}}
+                <div id="campo-estudiante" class="{{ old('role')==='estudiante' ? '' : 'hidden' }}" style="margin-top:4px;">
+
+                    <label class="form-label">Institución educativa</label>
+                    <input class="form-input" type="text" name="institucion"
+                        value="{{ old('institucion') }}"
+                        placeholder="Ej: IE Santa Ana, IE Manco Cápac...">
+                    @error('institucion')<div class="error-msg">{{ $message }}</div>@enderror
+
+                    <label class="form-label">Nivel educativo</label>
+                    <select class="form-input" name="nivel_educativo" id="select-nivel"
+                        onchange="actualizarGrados(this.value)">
+                        <option value="">Selecciona tu nivel</option>
+                        <option value="primaria" {{ old('nivel_educativo')==='primaria' ? 'selected' : '' }}>Primaria</option>
+                        <option value="secundaria" {{ old('nivel_educativo')==='secundaria' ? 'selected' : '' }}>Secundaria</option>
+                    </select>
+                    @error('nivel_educativo')<div class="error-msg">{{ $message }}</div>@enderror
+
+                    <label class="form-label">Grado</label>
+                    <select class="form-input" name="grado" id="select-grado">
+                        <option value="">Selecciona tu grado</option>
+                    </select>
+                    @error('grado')<div class="error-msg">{{ $message }}</div>@enderror
+
+                    <div style="display:flex;gap:10px;">
+                        <div style="flex:1;">
+                            <label class="form-label">Sección</label>
+                            <input class="form-input" type="text" name="seccion"
+                                value="{{ old('seccion') }}"
+                                placeholder="Ej: A"
+                                style="text-transform:uppercase;">
+                        </div>
+                        <div style="flex:2;">
+                            <label class="form-label">Código de aula <span style="color:#4A7A9A;font-weight:400;">(opcional)</span></label>
+                            <input class="form-input" type="text" name="codigo"
+                                value="{{ old('codigo') }}"
+                                placeholder="Si tu docente te dio uno"
+                                style="text-transform:uppercase;">
+                        </div>
+                    </div>
+
                 </div>
+
+
 
                 <label class="form-label">Contraseña</label>
                 <input class="form-input" type="password" name="password" required placeholder="Mínimo 8 caracteres">
@@ -98,7 +137,30 @@
 </div>
 <script>
 function toggleCodigo(show) {
-    document.getElementById('campo-codigo').classList.toggle('hidden', !show);
+    document.getElementById('campo-estudiante').classList.toggle('hidden', !show);
+}
+
+function actualizarGrados(nivel) {
+    const select = document.getElementById('select-grado');
+    select.innerHTML = '<option value="">Selecciona tu grado</option>';
+    if (nivel === 'primaria') {
+        for (let i = 1; i <= 6; i++) {
+            select.innerHTML += `<option value="${i}">${i}° Primaria</option>`;
+        }
+    } else if (nivel === 'secundaria') {
+        for (let i = 1; i <= 5; i++) {
+            select.innerHTML += `<option value="${i}">${i}° Secundaria</option>`;
+        }
+    }
+}
+
+const nivelGuardado = '{{ old('nivel_educativo') }}';
+const gradoGuardado = '{{ old('grado') }}';
+if (nivelGuardado) {
+    actualizarGrados(nivelGuardado);
+    if (gradoGuardado) {
+        document.getElementById('select-grado').value = gradoGuardado;
+    }
 }
 </script>
 </body>

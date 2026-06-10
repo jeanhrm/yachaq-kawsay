@@ -39,4 +39,8 @@ class ProgresoEstudiante extends Model
     {
         return $this->belongsTo(FaseMision::class, 'fase_actual_id');
     }
+    public function lugar()
+    {
+        return $this->belongsTo(Lugar::class);
+    }
 }

@@ -50,11 +50,21 @@ class DashboardController extends Controller
 
     public function misiones()
     {
-        return view('estudiante.misiones');
+        $misiones = \App\Models\Mision::where('activa', true)
+            ->orderBy('orden')
+            ->get();
+
+        $progresos = auth()->user()
+            ->progresos()
+            ->get()
+            ->keyBy('mision_id');
+
+        return view('estudiante.misiones', compact('misiones', 'progresos'));
     }
-    public function jugarMision(\App\Models\Mision $mision)
+    public function jugarMision(\App\Models\Mision $mision, Request $request)
     {
-        return view('estudiante.jugar', compact('mision'));
+        $lugarId = $request->query('lugar');
+        return view('estudiante.jugar', compact('mision', 'lugarId'));
     }
     public function perfil()
     {

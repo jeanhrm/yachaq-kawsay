@@ -29,37 +29,42 @@ class RegisteredUserController extends Controller
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
-        {
-            $request->validate([
-                'name'     => ['required', 'string', 'max:255'],
-                'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'role'     => ['required', 'in:docente,estudiante'],
-                'codigo'   => ['required_if:role,estudiante', 'nullable', 'string'],
-            ]);
+    {
+        $request->validate([
+            'name'            => ['required', 'string', 'max:255'],
+            'email'           => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'        => ['required', 'confirmed', Rules\Password::defaults()],
+            'role'            => ['required', 'in:docente,estudiante'],
+            'institucion'     => ['required_if:role,estudiante', 'nullable', 'string', 'max:200'],
+            'nivel_educativo' => ['required_if:role,estudiante', 'nullable', 'in:primaria,secundaria'],
+            'grado'           => ['required_if:role,estudiante', 'nullable', 'integer', 'min:1', 'max:6'],
+            'seccion'         => ['nullable', 'string', 'max:5'],
+            'codigo'          => ['nullable', 'string'], // opcional ahora
+        ]);
 
-            // Si es estudiante validar código de aula
-            $aulaId = null;
-            if ($request->role === 'estudiante') {
-                $aula = \App\Models\Aula::where('codigo', strtoupper($request->codigo))->first();
-                if (!$aula) {
-                    return back()->withErrors(['codigo' => 'El código de aula no es válido.'])->withInput();
-                }
-                $aulaId = $aula->id;
-            }
-
-            $user = User::create([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'password' => Hash::make($request->password),
-                'role'     => $request->role,
-                'aula_id'  => $aulaId,
-            ]);
-
-            event(new Registered($user));
-            Auth::login($user);
-
-            return redirect()->route('dashboard');
+        // Código de aula es opcional
+        $aulaId = null;
+        if ($request->filled('codigo')) {
+            $aula = \App\Models\Aula::where('codigo', strtoupper($request->codigo))->first();
+            if ($aula) $aulaId = $aula->id;
         }
+
+        $user = User::create([
+            'name'            => $request->name,
+            'email'           => $request->email,
+            'password'        => Hash::make($request->password),
+            'role'            => $request->role,
+            'aula_id'         => $aulaId,
+            'nivel_educativo' => $request->nivel_educativo,
+            'grado'           => $request->grado,
+            'seccion'         => $request->seccion,
+            'institucion'     => $request->institucion,
+        ]);
+
+        event(new Registered($user));
+        Auth::login($user);
+
+        return redirect()->route('dashboard');
+    }
     
 }

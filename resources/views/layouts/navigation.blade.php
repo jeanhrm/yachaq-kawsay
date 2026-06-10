@@ -18,10 +18,19 @@
                         <x-nav-link :href="route('docente.dashboard')" :active="request()->routeIs('docente.dashboard')">
                             {{ __('Seguimiento') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('docente.lugares')" :active="request()->routeIs('docente.lugares')">
+                            {{ __('Lugares QR') }}
+                        </x-nav-link>
                     @endif
+
+
+
                     @if(auth()->user()->isEstudiante())
                         <x-nav-link :href="route('estudiante.misiones')" :active="request()->routeIs('estudiante.misiones')">
                             {{ __('Misiones') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('ranking')" :active="request()->routeIs('ranking')">
+                            {{ __('Ranking') }}
                         </x-nav-link>
                     @endif
                 </div>

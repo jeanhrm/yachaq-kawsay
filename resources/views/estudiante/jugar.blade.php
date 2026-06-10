@@ -5,5 +5,5 @@
         </h2>
     </x-slot>
 
-    <livewire:mision-juego :mision="$mision" />
+    <livewire:mision-juego :mision="$mision" :lugar-id="$lugarId ?? null" />
 </x-app-layout>

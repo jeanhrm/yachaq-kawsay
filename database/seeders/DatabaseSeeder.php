@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MisionesSeeder::class,
             InsigniasSeeder::class,
+            LugaresSeeder::class,
         ]);
     }
 }

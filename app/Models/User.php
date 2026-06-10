@@ -10,11 +10,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name',
+#[Fillable([
+    'name',
     'email',
     'password',
     'role',
-    'aula_id'])]
+    'aula_id',
+    'nivel_educativo',
+    'grado',
+    'seccion',
+    'institucion',
+    ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -85,6 +91,32 @@ class User extends Authenticatable
         return $this->belongsToMany(Insignia::class, 'insignia_usuario')
             ->withPivot('desbloqueada_en')
             ->withTimestamps();
+    }
+    public function gradoCompleto(): string
+    {
+        if (!$this->grado || !$this->nivel_educativo) return 'Sin grado asignado';
+        $nivel = $this->nivel_educativo === 'primaria' ? 'Primaria' : 'Secundaria';
+        return "{$this->grado}° {$nivel}" . ($this->seccion ? " — Sección {$this->seccion}" : '');
+    }
+
+    public function cicloEBR(): string
+    {
+        if ($this->nivel_educativo === 'primaria') {
+            return match(true) {
+                in_array($this->grado, [1, 2]) => 'Ciclo III',
+                in_array($this->grado, [3, 4]) => 'Ciclo IV',
+                in_array($this->grado, [5, 6]) => 'Ciclo V',
+                default => 'Primaria'
+            };
+        }
+        if ($this->nivel_educativo === 'secundaria') {
+            return match(true) {
+                in_array($this->grado, [1, 2]) => 'Ciclo VI',
+                in_array($this->grado, [3, 4, 5]) => 'Ciclo VII',
+                default => 'Secundaria'
+            };
+        }
+        return 'Sin ciclo';
     }
 
 }
