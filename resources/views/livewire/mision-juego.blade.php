@@ -1,5 +1,5 @@
-<div class="max-w-6xl mx-auto py-8 px-4">
-    <div class="flex gap-6">
+<div class="max-w-6xl mx-auto py-4 px-3 sm:py-8 sm:px-4">
+    <div class="flex flex-col gap-4 sm:flex-row sm:gap-6">
 
         {{-- COLUMNA PRINCIPAL (izquierda) --}}
         <div class="flex-1 min-w-0">
@@ -131,8 +131,8 @@
         </div>
 
         {{-- PANEL HISTORIAL (derecha) --}}
-        <div class="w-80 flex-shrink-0">
-            <div class="bg-white rounded-xl shadow p-4 sticky top-4">
+        <div class="w-full sm:w-80 sm:flex-shrink-0">
+            <div class="bg-white rounded-xl shadow p-4 sm:sticky sm:top-4">
                 <h3 class="font-bold text-sm mb-4" style="color:#1D2458;">
                     📋 Historial de respuestas
                 </h3>
