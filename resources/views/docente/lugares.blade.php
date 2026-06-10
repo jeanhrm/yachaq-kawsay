@@ -38,10 +38,10 @@
 
                         {{-- Preview QR --}}
                         <div class="flex justify-center mb-4">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ urlencode(url('/lugar/'.$lugar->slug)) }}"
-                                 alt="QR {{ $lugar->nombre }}"
-                                 class="rounded-lg"
-                                 style="border:2px solid rgba(28,171,226,0.2);">
+                            <img src="{{ route('qr.generar', $lugar->slug) }}"
+                                alt="QR {{ $lugar->nombre }}"
+                                class="rounded-lg"
+                                style="border:2px solid rgba(28,171,226,0.2);width:150px;height:150px;">
                         </div>
 
                         <div class="text-center text-xs mb-4" style="color:#4A7A9A;">
