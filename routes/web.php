@@ -15,6 +15,15 @@ Route::get('/', function () {
 // Ruta pública para QR — fuera del grupo auth
 Route::get('/lugar/{slug}', [LugarController::class, 'escanear'])->name('lugar.escanear');
 
+// Ruta pública para generar imagen QR
+Route::get('/qr/{slug}', function($slug) {
+    $url = url("/lugar/{$slug}");
+    $qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
+        ->size(200)
+        ->generate($url);
+    return response($qr)->header('Content-Type', 'image/svg+xml');
+})->name('qr.generar');
+
 // Rutas autenticadas
 Route::middleware(['auth'])->group(function () {
 
