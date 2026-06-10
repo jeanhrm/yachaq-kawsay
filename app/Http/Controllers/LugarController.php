@@ -43,14 +43,14 @@ class LugarController extends Controller
     {
         $url = url("/lugar/{$lugar->slug}");
 
-        $qr = QrCode::format('png')
+        $qr = QrCode::format('svg')
             ->size(300)
             ->margin(2)
             ->generate($url);
 
         return response($qr)
-            ->header('Content-Type', 'image/png')
-            ->header('Content-Disposition', "attachment; filename=qr-{$lugar->slug}.png");
+            ->header('Content-Type', 'image/svg+xml')
+            ->header('Content-Disposition', "attachment; filename=qr-{$lugar->slug}.svg");
     }
     public function crear(Request $request)
     {
