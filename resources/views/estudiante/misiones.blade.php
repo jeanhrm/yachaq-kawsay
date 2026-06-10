@@ -53,7 +53,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('estudiante.mision.jugar', $mision) }}"
+                                <a href="{{ route('estudiante.mision.jugar', $mision->slug ?? $mision->id) }}"
                                    class="inline-block mt-4 text-white text-sm px-4 py-2 rounded-lg font-bold transition"
                                    style="background:#1D2458;">
                                     {{ $progreso ? ($progreso->completada ? 'Revisar misión' : 'Continuar') : 'Comenzar misión' }}
