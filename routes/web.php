@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Jugar misión — accesible para estudiantes sin prefijo
-    Route::middleware(['role:estudiante'])->get('/misiones/{mision}', [DashboardController::class, 'jugarMision'])->name('estudiante.mision.jugar');
+    Route::middleware(['role:estudiante'])->get('/misiones/{mision:slug}', [DashboardController::class, 'jugarMision'])->name('estudiante.mision.jugar');
 
 });
 

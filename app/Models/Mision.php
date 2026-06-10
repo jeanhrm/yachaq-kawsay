@@ -9,6 +9,7 @@ class Mision extends Model
 protected $table = 'misiones';    
 protected $fillable = [
         'titulo',
+        'slug',
         'descripcion',
         'contexto_andino',
         'pregunta_investigacion',
@@ -25,5 +26,9 @@ protected $fillable = [
     public function progresos()
     {
         return $this->hasMany(ProgresoEstudiante::class);
+    }
+        public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

@@ -10,9 +10,12 @@ class MisionesSeeder extends Seeder
 {
     public function run(): void
     {
+        \App\Models\FaseMision::truncate();
+        \App\Models\Mision::truncate();
         // MISIÓN 1 — El agua de los apus
         $mision1 = Mision::create([
             'titulo'               => 'El agua de los apus',
+            'slug'                 => 'el-agua-de-los-apus',
             'descripcion'          => 'Investiga por qué el agua del río baja turbia después de las lluvias en tu comunidad andina.',
             'contexto_andino'      => 'En las comunidades de Huancavelica, los ríos son fuente de vida. Pero después de las lluvias, el agua cambia. Los abuelos dicen que los apus lloran cuando la tierra está herida. ¿Qué está pasando realmente?',
             'pregunta_investigacion' => '¿Por qué el agua del río baja turbia después de las lluvias en nuestra comunidad?',
@@ -70,6 +73,7 @@ class MisionesSeeder extends Seeder
         // MISIÓN 2 — Las papas y el helaje
         $mision2 = Mision::create([
             'titulo'               => 'Las papas y el helaje',
+            'slug'                   => 'las-papas-y-el-helaje',
             'descripcion'          => 'Investiga cómo el frío intenso de las noches andinas afecta el crecimiento de las plantas.',
             'contexto_andino'      => 'En las alturas de Huancavelica, las heladas son parte de la vida. Los agricultores conocen el helaje como una amenaza para sus cultivos. Pero también saben que el frío puede ser aliado — el chuño nace del helaje. ¿Qué le pasa realmente a la planta cuando hiela?',
             'pregunta_investigacion' => '¿Cómo afecta el frío intenso de las noches andinas al crecimiento de las plantas de papa?',
