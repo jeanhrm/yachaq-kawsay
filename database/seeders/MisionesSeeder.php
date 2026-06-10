@@ -10,8 +10,7 @@ class MisionesSeeder extends Seeder
 {
     public function run(): void
     {
-        \App\Models\FaseMision::truncate();
-        \App\Models\Mision::truncate();
+
         // MISIÓN 1 — El agua de los apus
         $mision1 = Mision::create([
             'titulo'               => 'El agua de los apus',
