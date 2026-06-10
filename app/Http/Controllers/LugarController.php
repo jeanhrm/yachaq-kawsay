@@ -34,7 +34,8 @@ class LugarController extends Controller
     public function index()
     {
         $lugares = Lugar::with('mision')->get();
-        return view('docente.lugares', compact('lugares'));
+        $misiones = \App\Models\Mision::where('activa', true)->orderBy('orden')->get();
+        return view('docente.lugares', compact('lugares', 'misiones'));
     }
 
     // Generar QR de un lugar
@@ -50,5 +51,36 @@ class LugarController extends Controller
         return response($qr)
             ->header('Content-Type', 'image/png')
             ->header('Content-Disposition', "attachment; filename=qr-{$lugar->slug}.png");
+    }
+    public function crear(Request $request)
+    {
+        $request->validate([
+            'nombre'    => 'required|string|max:150',
+            'ubicacion' => 'nullable|string|max:150',
+            'descripcion' => 'nullable|string',
+            'mision_id' => 'required|exists:misiones,id',
+            'latitud'   => 'nullable|numeric',
+            'longitud'  => 'nullable|numeric',
+        ]);
+
+        $slug = \Illuminate\Support\Str::slug($request->nombre);
+        $slugBase = $slug;
+        $i = 1;
+        while (\App\Models\Lugar::where('slug', $slug)->exists()) {
+            $slug = $slugBase . '-' . $i++;
+        }
+
+        \App\Models\Lugar::create([
+            'nombre'      => $request->nombre,
+            'slug'        => $slug,
+            'descripcion' => $request->descripcion,
+            'ubicacion'   => $request->ubicacion,
+            'mision_id'   => $request->mision_id,
+            'latitud'     => $request->latitud,
+            'longitud'    => $request->longitud,
+            'activo'      => true,
+        ]);
+
+        return back()->with('success', '¡Lugar creado correctamente! Ya puedes descargar su QR.');
     }
 }

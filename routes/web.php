@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardDocente'])->name('dashboard');
         Route::get('/lugares', [LugarController::class, 'index'])->name('lugares');
         Route::get('/lugares/{lugar}/qr', [LugarController::class, 'qr'])->name('lugares.qr');
+        Route::post('/lugares', [LugarController::class, 'crear'])->name('lugares.crear');
     });
 
     // Rutas estudiante
