@@ -16,16 +16,15 @@ class LugarController extends Controller
             ->with('mision')
             ->firstOrFail();
 
-        // Si no está logueado → guardar slug en sesión y redirigir a login
         if (!auth()->check()) {
             session(['lugar_pendiente' => $slug]);
             return redirect()->route('login')
                 ->with('info', "Inicia sesión para comenzar la misión en {$lugar->nombre}");
         }
 
-        // Si está logueado → redirigir a la misión con el lugar registrado
+        // Redirigir a la misión usando el slug de la misión
         return redirect()->route('estudiante.mision.jugar', [
-            'mision' => $lugar->mision_id,
+            'mision' => $lugar->mision->slug,
             'lugar'  => $lugar->id,
         ]);
     }
