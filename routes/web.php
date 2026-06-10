@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LugarController;
 use App\Http\Controllers\RankingController;
+use App\Http\Controllers\MisionController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -46,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/lugares/{lugar}/qr', [LugarController::class, 'qr'])->name('lugares.qr');
         Route::post('/lugares', [LugarController::class, 'crear'])->name('lugares.crear');
         Route::delete('/lugares/{lugar}', [LugarController::class, 'eliminar'])->name('lugares.eliminar');
+        Route::get('/misiones', [MisionController::class, 'index'])->name('misiones');
+        Route::post('/misiones', [MisionController::class, 'crear'])->name('misiones.crear');
+        Route::delete('/misiones/{mision}', [MisionController::class, 'eliminar'])->name('misiones.eliminar');
     });
 
     // Rutas estudiante

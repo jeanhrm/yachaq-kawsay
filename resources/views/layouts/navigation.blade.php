@@ -21,6 +21,9 @@
                         <x-nav-link :href="route('docente.lugares')" :active="request()->routeIs('docente.lugares')">
                             {{ __('Lugares QR') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('docente.misiones')" :active="request()->routeIs('docente.misiones')">
+                        {{ __('Misiones') }}
+                        </x-nav-link>
                     @endif
 
 
