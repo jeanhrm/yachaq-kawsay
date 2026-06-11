@@ -125,7 +125,7 @@
 <body>
 <div class="hero fade-in">
     <div class="hero-left">
-        <div class="tag"><div class="tag-dot"></div><span>Plataforma educativa andina</span></div>
+        <div class="tag"><div class="tag-dot"></div><span>Plataforma educativa que promueve la Indagación</span></div>
         
 
         <div style="display:flex;flex-direction:column;gap:16px;">
@@ -138,7 +138,7 @@
         
         <h1 class="hero-title">Yachaq<br>Kawsay</h1>
         <p class="hero-subtitle">"El conocimiento que da vida"</p>
-        <p class="hero-desc">Aprende ciencia investigando tu propio entorno andino. Con Tupaq, tu guía con IA, cada misión te acerca más a ser un verdadero indagador.</p>
+        <p class="hero-desc">Aprende ciencia investigando tu propio entorno, con Tupaq, tu guía con IA, cada misión te acerca más a ser un verdadero indagador.</p>
         <div>
             <a href="{{ route('register') }}" class="btn-primary">Comenzar ahora</a>
             <a href="{{ route('login') }}" class="btn-secondary">Iniciar sesión</a>

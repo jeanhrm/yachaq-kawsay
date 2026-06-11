@@ -37,16 +37,29 @@
 <body class="fade-in">
 <div class="auth-grid">
     <div class="auth-left">
-        <div style="position:relative;z-index:1;">
-            <div style="font-size:3rem;margin-bottom:1rem;">🏔️</div>
-            <div class="brand">Yachaq<br>Kawsay</div>
-            <div class="brand-sub">"El conocimiento que da vida"</div>
-            <div class="feature-item"><div class="feature-box">🦙</div><div class="feature-text">Tupaq te guía con IA</div></div>
-            <div class="feature-item"><div class="feature-box">🔬</div><div class="feature-text">Misiones de indagación andina</div></div>
-            <div class="feature-item"><div class="feature-box">🏆</div><div class="feature-text">Insignias en quechua</div></div>
-            <div class="feature-item"><div class="feature-box">👨‍🏫</div><div class="feature-text">Seguimiento docente en tiempo real</div></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag" style="display:inline-flex;align-items:center;gap:6px;background:rgba(28,171,226,0.15);border:1px solid rgba(28,171,226,0.3);border-radius:999px;padding:5px 14px;margin-bottom:1.5rem;width:fit-content;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#1CABE2;"></div>
+            <span style="font-size:0.75rem;color:#1CABE2;font-weight:700;">Plataforma educativa que promueve la Indagación</span>
         </div>
+
+        <img src="{{ asset('images/tupac.png') }}"
+             alt="Tupaq"
+             style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid rgba(28,171,226,0.4);margin-bottom:1.2rem;">
+
+        <div class="brand">Yachaq<br>Kawsay</div>
+        <div class="brand-sub">"El conocimiento que da vida"</div>
+
+        <img src="{{ asset('images/hero-andino.png') }}"
+             alt="Yachaq Kawsay"
+             style="width:100%;max-width:340px;border-radius:16px;object-fit:cover;margin-bottom:1.5rem;">
+
+        <div class="feature-item"><div class="feature-box">🦙</div><div class="feature-text">Tupaq te guía con IA en cada misión</div></div>
+        <div class="feature-item"><div class="feature-box">🔬</div><div class="feature-text">Misiones de indagación andina</div></div>
+        <div class="feature-item"><div class="feature-box">🏆</div><div class="feature-text">Insignias en quechua</div></div>
+        <div class="feature-item"><div class="feature-box">👨‍🏫</div><div class="feature-text">Seguimiento docente en tiempo real</div></div>
     </div>
+</div>
     <div style="display:flex;align-items:center;justify-content:center;padding:2rem;overflow-y:auto;">
         <div style="width:100%;max-width:400px;">
             <div class="form-title">Crear cuenta</div>
