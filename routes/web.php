@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/misiones', [MisionController::class, 'index'])->name('misiones');
         Route::post('/misiones', [MisionController::class, 'crear'])->name('misiones.crear');
         Route::delete('/misiones/{mision}', [MisionController::class, 'eliminar'])->name('misiones.eliminar');
+        Route::post('/misiones/{mision}/regenerar-fases', [MisionController::class, 'regenerarFases'])->name('misiones.regenerar');
     });
 
     // Rutas estudiante

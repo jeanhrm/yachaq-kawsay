@@ -19,8 +19,7 @@
             <div class="bg-white rounded-xl shadow p-6 mb-6">
                 <h3 class="font-bold mb-4" style="color:#1D2458;">+ Nueva misión de indagación</h3>
                 <p class="text-xs mb-4" style="color:#4A7A9A;">
-                    Las 5 fases del ciclo de indagación (Tapukuy, Yuyaychakuy, Hap'iy, Yachaqay, Tukuchiy) se crean automáticamente. Tupaq adaptará su guía según el grado del estudiante.
-                </p>
+                    Las 5 fases del ciclo de indagación (Tapukuy, Yuyaychakuy, Hap'iy, Yachaqay, Tukuchiy) se generan automáticamente con IA según el contexto de tu misión. Si ya tienes misiones con fases placeholder, usa el botón 🤖 Regenerar para actualizarlas.                </p>
 
                 <form method="POST" action="{{ route('docente.misiones.crear') }}">
                     @csrf
@@ -110,19 +109,29 @@
                                     {{ $mision->fases_count }} fases · {{ $mision->descripcion }}
                                 </p>
                             </div>
-                            <div class="flex gap-2 ml-4">
-                                <form method="POST"
-                                    action="{{ route('docente.misiones.eliminar', $mision) }}"
-                                    onsubmit="return confirm('¿Eliminar esta misión y todas sus fases?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="text-xs font-bold px-3 py-2 rounded-lg"
-                                        style="background:#FFF5F5;color:#E53E3E;border:1px solid rgba(229,83,62,0.2);">
-                                        🗑️ Eliminar
-                                    </button>
-                                </form>
-                            </div>
+                            <div class="flex gap-2 ml-4 flex-wrap">
+                            <form method="POST"
+                                action="{{ route('docente.misiones.regenerar', $mision) }}">
+                                @csrf
+                                <button type="submit"
+                                    class="text-xs font-bold px-3 py-2 rounded-lg"
+                                    style="background:#EEF7FC;color:#1CABE2;border:1px solid rgba(28,171,226,0.2);">
+                                    🤖 Regenerar fases con IA
+                                </button>
+                            </form>
+                            <form method="POST"
+                                action="{{ route('docente.misiones.eliminar', $mision) }}"
+                                onsubmit="return confirm('¿Eliminar esta misión y todas sus fases?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="text-xs font-bold px-3 py-2 rounded-lg"
+                                    style="background:#FFF5F5;color:#E53E3E;border:1px solid rgba(229,83,62,0.2);">
+                                    🗑️ Eliminar
+                                </button>
+                            </form>
+                        </div>
+
                         </div>
                     </div>
                 @empty
