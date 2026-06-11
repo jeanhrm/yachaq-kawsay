@@ -9,7 +9,7 @@
         <div class="max-w-lg mx-auto px-3 sm:px-6">
             <div class="bg-white rounded-xl shadow p-5 sm:p-6">
 
-                <form method="POST" action="{{ route('perfil.actualizar') }}">
+                <form method="POST" action="{{ route('estudiante.perfil.actualizar') }}">
                     @csrf
                     @method('PUT')
 
