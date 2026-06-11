@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:estudiante'])->prefix('estudiante')->name('estudiante.')->group(function () {
         Route::get('/misiones', [DashboardController::class, 'misiones'])->name('misiones');
         Route::get('/perfil', [DashboardController::class, 'perfil'])->name('perfil');
+        Route::get('/perfil/editar', [DashboardController::class, 'editarPerfil'])->name('perfil.editar');
+        Route::put('/perfil/editar', [DashboardController::class, 'actualizarPerfil'])->name('perfil.actualizar');
     });
 
     // Jugar misión — accesible para estudiantes sin prefijo

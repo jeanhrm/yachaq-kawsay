@@ -19,6 +19,11 @@
                         <h2 class="text-lg sm:text-2xl font-semibold" style="color:#1D2458;">
                             {{ auth()->user()->name }}
                         </h2>
+                        <a href="{{ route('perfil.editar') }}"
+                            class="text-xs font-bold px-3 py-1 rounded-lg"
+                            style="background:#EEF7FC;color:#1CABE2;border:1px solid rgba(28,171,226,0.2);">
+                            ✏️ Editar
+                        </a>
                         <p class="text-xs sm:text-sm font-bold mt-1" style="color:#1CABE2;">
                             {{ auth()->user()->nivelActual() }}
                         </p>
