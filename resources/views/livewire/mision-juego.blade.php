@@ -62,28 +62,71 @@
                 </div>
 
                 {{-- Tupaq habla --}}
-                <div class="rounded-xl p-5 mb-4 flex gap-4"
+                <div class="rounded-xl p-5 mb-4"
                     style="background:#EEF7FC;border:1px solid rgba(28,171,226,0.25);">
-                    <img src="{{ asset('images/tupac.png') }}"
-                         alt="Tupaq"
-                         style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(28,171,226,0.3);">
-                    <div>
-                        <p class="text-xs font-bold mb-1" style="color:#1CABE2;">Tupaq dice:</p>
-                        @if($respuestaTupaq)
-                            <p class="text-sm leading-relaxed" style="color:#1D2458;">{{ $respuestaTupaq }}</p>
-                            @if($faseAprobada)
-                                <div class="mt-2">
-                                    <span class="text-xs font-bold" style="color:#1CABE2;">
-                                        ✓ Nivel {{ $nivelLogrado }} — +{{ $faseActual->xp_recompensa }} XP
-                                    </span>
-                                </div>
+                    <div class="flex gap-4 mb-3">
+                        <img src="{{ asset('images/tupac.png') }}"
+                            alt="Tupaq"
+                            style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(28,171,226,0.3);">
+                        <div class="flex-1">
+                            <p class="text-xs font-bold mb-1" style="color:#1CABE2;">Tupaq dice:</p>
+                            @if($respuestaTupaq)
+                                <p class="text-sm leading-relaxed" style="color:#1D2458;">{{ $respuestaTupaq }}</p>
+                                @if($faseAprobada)
+                                    <div class="mt-2">
+                                        <span class="text-xs font-bold" style="color:#1CABE2;">
+                                            ✓ Nivel {{ $nivelLogrado }} — +{{ $faseActual->xp_recompensa }} XP
+                                        </span>
+                                    </div>
+                                @else
+                                    <p class="text-xs mt-2" style="color:#4A7A9A;">
+                                        Intenta mejorar tu respuesta para avanzar.
+                                    </p>
+                                @endif
                             @else
-                                <p class="text-xs mt-2" style="color:#4A7A9A;">Intenta mejorar tu respuesta para avanzar.</p>
+                                <p class="text-sm leading-relaxed" style="color:#1D2458;">
+                                    {{ $faseActual->pista_tupaq }}
+                                </p>
                             @endif
-                        @else
-                            <p class="text-sm leading-relaxed" style="color:#1D2458;">{{ $faseActual->pista_tupaq }}</p>
-                        @endif
+                        </div>
                     </div>
+
+                    {{-- Conexión STEAM --}}
+                    @if($actividadSteam)
+                        @php
+                            $steamConfig = [
+                                'ciencia'     => ['emoji' => '🔬', 'label' => 'Conexión Ciencia',      'color' => '#1CABE2'],
+                                'matematica'  => ['emoji' => '📐', 'label' => 'Conexión Matemática',   'color' => '#7B2FBE'],
+                                'arte'        => ['emoji' => '🎨', 'label' => 'Conexión Arte',         'color' => '#E05C2A'],
+                                'ingenieria'  => ['emoji' => '🏗️', 'label' => 'Conexión Ingeniería',  'color' => '#1D7A4A'],
+                                'tecnologia'  => ['emoji' => '💻', 'label' => 'Conexión Tecnología',   'color' => '#1D2458'],
+                            ];
+                            $cfg = $steamConfig[$areaSteam] ?? $steamConfig['ciencia'];
+                        @endphp
+                        <div class="rounded-lg p-3 mt-3"
+                            style="background:white;border:1px solid rgba(28,171,226,0.15);">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-base">{{ $cfg['emoji'] }}</span>
+                                <span class="text-xs font-bold" style="color:{{ $cfg['color'] }};">
+                                    {{ $cfg['label'] }}
+                                </span>
+                            </div>
+                            <p class="text-xs leading-relaxed" style="color:#4A7A9A;">
+                                {{ $actividadSteam }}
+                            </p>
+                        </div>
+                    @endif
+
+                    {{-- Invitación al docente --}}
+                    @if($invitaDocente)
+                        <div class="rounded-lg p-3 mt-2 flex items-start gap-2"
+                            style="background:rgba(29,36,88,0.05);border:1px solid rgba(29,36,88,0.1);">
+                            <span class="text-base flex-shrink-0">👨‍🏫</span>
+                            <p class="text-xs" style="color:#1D2458;font-weight:600;">
+                                Tupaq te invita a consultar esto con tu docente para explorar más en clase.
+                            </p>
+                        </div>
+                    @endif
                 </div>
 
                 {{-- Respuesta del estudiante --}}

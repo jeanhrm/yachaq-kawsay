@@ -22,6 +22,9 @@ class MisionJuego extends Component
     public int $nivelLogrado = 0;
     public ?int $lugarId = null;
     public $historialFase = [];
+    public ?string $areaSteam = null;
+    public ?string $actividadSteam = null;
+    public bool $invitaDocente = false;
 
     public function mount(Mision $mision): void
     {
@@ -66,12 +69,16 @@ class MisionJuego extends Component
         $this->respuestaTupaq = null;
         $this->faseAprobada = false;
 
+
         try {
             $respuesta = $this->consultarTupaq();
 
             $this->respuestaTupaq = $respuesta['mensaje'];
             $this->nivelLogrado   = $respuesta['nivel'];
             $this->faseAprobada   = $respuesta['aprobada'];
+            $this->areaSteam      = $respuesta['area_steam'];
+            $this->actividadSteam = $respuesta['actividad_steam'];
+            $this->invitaDocente  = $respuesta['invita_docente'];
 
             InteraccionIA::create([
                 'user_id'                => auth()->id(),
@@ -157,7 +164,7 @@ class MisionJuego extends Component
             'content-type'      => 'application/json',
         ])->post('https://api.anthropic.com/v1/messages', [
             'model'      => 'claude-sonnet-4-20250514',
-            'max_tokens' => 600,
+            'max_tokens' => 800,
             'messages'   => [
                 ['role' => 'user', 'content' => $prompt]
             ],
@@ -167,62 +174,65 @@ class MisionJuego extends Component
         $json  = json_decode($texto, true);
 
         return [
-            'mensaje'      => $json['mensaje'] ?? $texto,
-            'nivel'        => $json['nivel'] ?? 1,
-            'aprobada'     => ($json['nivel'] ?? 1) >= 2,
-            'competencias' => $json['competencias'] ?? [],
+            'mensaje'         => $json['mensaje'] ?? $texto,
+            'nivel'           => $json['nivel'] ?? 1,
+            'aprobada'        => ($json['nivel'] ?? 1) >= 2,
+            'competencias'    => $json['competencias'] ?? [],
+            'area_steam'      => $json['area_steam'] ?? null,
+            'actividad_steam' => $json['actividad_steam'] ?? null,
+            'invita_docente'  => $json['invita_docente'] ?? false,
         ];
     }
 
     private function construirPrompt(): string
-{
-    $user = auth()->user();
-    $gradoInfo = $user->gradoCompleto();
-    $ciclo = $user->cicloEBR();
+    {
+        $user = auth()->user();
+        $gradoInfo = $user->gradoCompleto();
+        $ciclo = $user->cicloEBR();
 
-    $nivelLenguaje = match(true) {
-        $user->nivel_educativo === 'primaria' && $user->grado <= 2 =>
-            'Usa lenguaje muy simple, frases cortas, vocabulario básico. Como hablarías con un niño de 6-7 años.',
-        $user->nivel_educativo === 'primaria' && $user->grado <= 4 =>
-            'Usa lenguaje simple y claro. Puedes usar analogías con elementos cotidianos andinos.',
-        $user->nivel_educativo === 'primaria' && $user->grado <= 6 =>
-            'Usa lenguaje accesible. Puedes introducir términos científicos básicos explicándolos.',
-        $user->nivel_educativo === 'secundaria' && $user->grado <= 2 =>
-            'Usa lenguaje claro con términos científicos básicos. Conecta con su contexto adolescente andino.',
-        $user->nivel_educativo === 'secundaria' && $user->grado >= 3 =>
-            'Usa lenguaje más técnico y científico. Exige mayor rigor en las hipótesis y conclusiones.',
-        default => 'Usa lenguaje claro y motivador adaptado al contexto andino.'
-    };
+        $nivelLenguaje = match(true) {
+            $user->nivel_educativo === 'primaria' && $user->grado <= 2 =>
+                'Usa lenguaje muy simple, frases cortas, vocabulario básico. Como hablarías con un niño de 6-7 años.',
+            $user->nivel_educativo === 'primaria' && $user->grado <= 4 =>
+                'Usa lenguaje simple y claro. Puedes usar analogías con elementos cotidianos andinos.',
+            $user->nivel_educativo === 'primaria' && $user->grado <= 6 =>
+                'Usa lenguaje accesible. Puedes introducir términos científicos básicos explicándolos.',
+            $user->nivel_educativo === 'secundaria' && $user->grado <= 2 =>
+                'Usa lenguaje claro con términos científicos básicos. Conecta con su contexto adolescente andino.',
+            $user->nivel_educativo === 'secundaria' && $user->grado >= 3 =>
+                'Usa lenguaje más técnico y científico. Exige mayor rigor en las hipótesis y conclusiones.',
+            default => 'Usa lenguaje claro y motivador adaptado al contexto andino.'
+        };
 
-    $nivelExigencia = match(true) {
-        $user->nivel_educativo === 'primaria' && $user->grado <= 2 =>
-            'Nivel 2 es suficiente para aprobar. Valora el esfuerzo y la observación básica.',
-        $user->nivel_educativo === 'primaria' && $user->grado <= 4 =>
-            'Nivel 2 es suficiente. Espera descripciones simples con alguna relación causa-efecto.',
-        $user->nivel_educativo === 'primaria' && $user->grado <= 6 =>
-            'Nivel 2 mínimo. Espera hipótesis con algún fundamento y conclusiones básicas.',
-        $user->nivel_educativo === 'secundaria' && $user->grado <= 2 =>
-            'Nivel 2 mínimo. Espera hipótesis fundamentadas y uso de vocabulario científico básico.',
-        $user->nivel_educativo === 'secundaria' && $user->grado >= 3 =>
-            'Nivel 3 mínimo para aprobar. Exige hipótesis con variables, análisis con evidencias y conclusiones fundamentadas.',
-        default => 'Nivel 2 es suficiente para aprobar.'
-    };
+        $nivelExigencia = match(true) {
+            $user->nivel_educativo === 'primaria' && $user->grado <= 2 =>
+                'Nivel 2 es suficiente para aprobar. Valora el esfuerzo y la observación básica.',
+            $user->nivel_educativo === 'primaria' && $user->grado <= 4 =>
+                'Nivel 2 es suficiente. Espera descripciones simples con alguna relación causa-efecto.',
+            $user->nivel_educativo === 'primaria' && $user->grado <= 6 =>
+                'Nivel 2 mínimo. Espera hipótesis con algún fundamento y conclusiones básicas.',
+            $user->nivel_educativo === 'secundaria' && $user->grado <= 2 =>
+                'Nivel 2 mínimo. Espera hipótesis fundamentadas y uso de vocabulario científico básico.',
+            $user->nivel_educativo === 'secundaria' && $user->grado >= 3 =>
+                'Nivel 3 mínimo para aprobar. Exige hipótesis con variables, análisis con evidencias y conclusiones fundamentadas.',
+            default => 'Nivel 2 es suficiente para aprobar.'
+        };
 
-    $competenciaCNEB = match(true) {
-        $user->nivel_educativo === 'primaria' && $user->grado <= 2 =>
-            'Competencia 20 CNEB — Ciclo III: Observa hechos y fenómenos. Formula preguntas y posibles respuestas. Registra datos.',
-        $user->nivel_educativo === 'primaria' && $user->grado <= 4 =>
-            'Competencia 20 CNEB — Ciclo IV: Problematiza situaciones, diseña estrategias, genera datos, analiza y evalúa.',
-        $user->nivel_educativo === 'primaria' && $user->grado <= 6 =>
-            'Competencia 20 CNEB — Ciclo V: Problematiza con mayor precisión, formula hipótesis, recoge evidencias, comunica conclusiones.',
-        $user->nivel_educativo === 'secundaria' && $user->grado <= 2 =>
-            'Competencia 20 CNEB — Ciclo VI: Formula hipótesis con variables, diseña procedimientos, analiza con modelos, comunica con argumentos.',
-        $user->nivel_educativo === 'secundaria' && $user->grado >= 3 =>
-            'Competencia 20 CNEB — Ciclo VII: Investiga con rigor científico, evalúa hipótesis, usa modelos complejos, comunica con evidencias sólidas.',
-        default => 'Competencia 20 CNEB — Indagación científica.'
-    };
+        $competenciaCNEB = match(true) {
+            $user->nivel_educativo === 'primaria' && $user->grado <= 2 =>
+                'Competencia 20 CNEB — Ciclo III: Observa hechos y fenómenos. Formula preguntas y posibles respuestas. Registra datos.',
+            $user->nivel_educativo === 'primaria' && $user->grado <= 4 =>
+                'Competencia 20 CNEB — Ciclo IV: Problematiza situaciones, diseña estrategias, genera datos, analiza y evalúa.',
+            $user->nivel_educativo === 'primaria' && $user->grado <= 6 =>
+                'Competencia 20 CNEB — Ciclo V: Problematiza con mayor precisión, formula hipótesis, recoge evidencias, comunica conclusiones.',
+            $user->nivel_educativo === 'secundaria' && $user->grado <= 2 =>
+                'Competencia 20 CNEB — Ciclo VI: Formula hipótesis con variables, diseña procedimientos, analiza con modelos, comunica con argumentos.',
+            $user->nivel_educativo === 'secundaria' && $user->grado >= 3 =>
+                'Competencia 20 CNEB — Ciclo VII: Investiga con rigor científico, evalúa hipótesis, usa modelos complejos, comunica con evidencias sólidas.',
+            default => 'Competencia 20 CNEB — Indagación científica.'
+        };
 
-    return <<<PROMPT
+        return <<<PROMPT
     Eres Tupaq, un sabio andino y guía científico para estudiantes de Huancavelica, Perú.
     Hablas con calidez, usando ocasionalmente palabras en quechua.
     Siempre conectas la ciencia con el contexto andino y el conocimiento ancestral.
@@ -236,6 +246,7 @@ class MisionJuego extends Component
     NIVEL DE EXIGENCIA: {$nivelExigencia}
 
     MISIÓN: {$this->mision->titulo}
+    CONTEXTO ANDINO: {$this->mision->contexto_andino}
     PREGUNTA DE INVESTIGACIÓN: {$this->mision->pregunta_investigacion}
 
     FASE ACTUAL: {$this->faseActual->nombre} ({$this->faseActual->nombre_quechua})
@@ -244,7 +255,27 @@ class MisionJuego extends Component
     RESPUESTA DEL ESTUDIANTE:
     {$this->respuestaEstudiante}
 
-    Evalúa considerando el grado y ciclo del estudiante:
+    INSTRUCCIONES PARA TU RESPUESTA:
+    1. Evalúa la respuesta y da retroalimentación cálida y motivadora.
+    2. Según lo que el estudiante escribió, identifica UNA conexión STEAM natural y relevante:
+    - 🔬 Ciencia: profundiza el fenómeno observado
+    - 📐 Matemática: sugiere una medición, cálculo o registro numérico concreto
+    - 🎨 Arte: invita a dibujar, fotografiar o representar lo observado
+    - 🏗️ Ingeniería: propone construir algo simple o diseñar una solución
+    - 💻 Tecnología: sugiere usar una app, herramienta digital o registro fotográfico
+    3. La conexión STEAM debe ser:
+    - Natural, no forzada — que surja de lo que el estudiante escribió
+    - Concreta y realizable con recursos del entorno andino
+    - Adaptada al grado del estudiante
+    - Formulada como pregunta o actividad breve, no como lista
+    4. Si la respuesta toca algo que el docente podría enriquecer presencialmente, 
+    agrega una invitación al docente al final. Ejemplo: 
+    "Yachay wawqey, esto también sería bueno conversarlo con tu docente — 
+    él/ella puede ayudarte a explorar esto más profundamente en clase."
+    5. NO menciones todas las áreas STEAM — solo la más relevante según la respuesta.
+    6. El mensaje debe sonar como una conversación, no como una lista de tareas.
+
+    Evalúa con estos niveles considerando el grado del estudiante:
     - Nivel 1 (Inicio): No cumple lo esperado para su grado
     - Nivel 2 (Proceso): Cumple parcialmente lo esperado para su grado
     - Nivel 3 (Logrado): Cumple lo esperado para su grado
@@ -252,8 +283,11 @@ class MisionJuego extends Component
 
     Responde ÚNICAMENTE con este JSON válido, sin texto adicional:
     {
-    "mensaje": "Tu respuesta como Tupaq aquí (máximo 120 palabras, adaptada al grado del estudiante)",
+    "mensaje": "Tu respuesta como Tupaq aquí (máximo 180 palabras, cálida, con conexión STEAM natural e invitación al docente si aplica)",
     "nivel": 2,
+    "area_steam": "ciencia|matematica|arte|ingenieria|tecnologia",
+    "actividad_steam": "Descripción breve de la actividad sugerida en máximo 20 palabras",
+    "invita_docente": true,
     "competencias": {
         "problematiza": 2,
         "hipotesis": 0,
